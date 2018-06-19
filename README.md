@@ -1,6 +1,18 @@
+
 # CarND-Path-Planning-Project
 Self-Driving Car Engineer Nanodegree Program
-   
+
+## Introduction to the project – 
+In this project, we have to generate the reference trajectory for a car running on a highway in a simulator. The car must have to follow the given conditions – 
+
+1.	The car is able to drive at least 4.32 miles without incident.
+2.	The car drives according to the speed limit.
+3.	Max Acceleration and Jerk are not Exceeded.
+4.	Car does not have collisions.
+5.	The car stays in its lane, except for the time between changing lanes.
+6.	The car is able to change lanes.
+
+
 ### Simulator.
 You can download the Term3 Simulator which contains the Path Planning Project from the [releases tab (https://github.com/udacity/self-driving-car-sim/releases/tag/T3_v1.2).
 
@@ -59,6 +71,26 @@ the path has processed since last time.
 1. The car uses a perfect controller and will visit every (x,y) point it recieves in the list every .02 seconds. The units for the (x,y) points are in meters and the spacing of the points determines the speed of the car. The vector going from a point to the next point in the list dictates the angle of the car. Acceleration both in the tangential and normal directions is measured along with the jerk, the rate of change of total Acceleration. The (x,y) point paths that the planner recieves should not have a total acceleration that goes over 10 m/s^2, also the jerk should not go over 50 m/s^3. (NOTE: As this is BETA, these requirements might change. Also currently jerk is over a .02 second interval, it would probably be better to average total acceleration over 1 second and measure jerk from that.
 
 2. There will be some latency between the simulator running and the path planner returning a path, with optimized code usually its not very long maybe just 1-3 time steps. During this delay the simulator will continue using points that it was last given, because of this its a good idea to store the last points you have used so you can have a smooth transition. previous_path_x, and previous_path_y can be helpful for this transition since they show the last points given to the simulator controller with the processed points already removed. You would either return a path that extends this previous path or make sure to create a new path that has a smooth transition with this last path.
+
+
+## Reflection of work – 
+
+File – main.cpp
+
+1.	At line 357, I used a ref_vel, and velocity will be only increased if it is less than the this reference velocity (49.5)
+2.	The car will drive in the same lane if there is no car ahead of it. 
+![Straight](1.png)
+3.	The car should change the lane, if it has come too close to a car in front of it to avoid collision. This is checked at line 290.
+![lanechange](2.png)
+4.	If left lane or right lane are not available to (i.e. another car is present) then the car will slow down its speed to avoid collision. 
+5.	The car will maintain a distance of 30 from cars in its front.
+6.	Car trajectory will depend on presence of other vehicles on the road. Points from last trajectory is also considered.
+7.	Total 3 waypoints, at 30, 60 and 90 meters are added to the final trajectory. Using spline.h library, I mapped this points to local car coordinate system. 
+
+
+## Results – 
+	The car was able to run in the simulated environment. The code generated a safe trajectory for the car to follow. It avoided collision by changing lanes and lowering its speed.   
+
 
 ## Tips
 
